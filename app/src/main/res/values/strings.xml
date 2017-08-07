@@ -16,6 +16,8 @@
     <string name="interstitial">ca-app-pub-7130350208213886/3021698057</string>
     <string name="native_ad">ca-app-pub-7130350208213886/8891384059</string>
     <string name="ad_id_banner">ca-app-pub-7130350208213886/1544964854</string>
+    <string name="photo">Photo</string>
+    <string name="news_title">Alexander Lacazette signs for Arsenal</string>
 
 
 </resources>

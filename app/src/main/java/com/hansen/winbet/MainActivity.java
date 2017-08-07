@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        PollFish.initWith(this, new ParamsBuilder("7c4b-497a-a1fa-1c3267e71569").build());
+        PollFish.initWith(this, new ParamsBuilder("060bb480-7c4b-497a-a1fa-1c3267e71569").build());
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

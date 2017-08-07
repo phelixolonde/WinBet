@@ -4,7 +4,7 @@ package com.hansen.winbet;
  * Created by Hansen on 23-Jun-17.
  */
 
-class Model {
+public class Model {
     private String title;
     private String body;
     private Long time;
