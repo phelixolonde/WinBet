@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class PostDetailed extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class PostDetailed extends AppCompatActivity {
     String postKey;
     TextView tvTitle, tvBody, tvTime;
     private InterstitialAd mInterstitialAd;
+    Query q;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class PostDetailed extends AppCompatActivity {
         }
         setContentView(R.layout.activity_post_detailed);
 
-        postKey = getIntent().getExtras().getString("postKey");
+        postKey = getIntent().getExtras().getString("post_key");
         tvBody = (TextView) findViewById(R.id.tvBody);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTime = (TextView) findViewById(R.id.post_time);
@@ -52,7 +54,8 @@ public class PostDetailed extends AppCompatActivity {
 
         if (postKey != null) {
 
-            mRef = FirebaseDatabase.getInstance().getReference().child("winbet").child(postKey);
+            mRef = FirebaseDatabase.getInstance().getReference().child("winbet");
+            q=mRef.orderByChild("time").equalTo(postKey);
         }
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,7 +63,7 @@ public class PostDetailed extends AppCompatActivity {
                 String title = dataSnapshot.child("title").getValue().toString();
                 String body = dataSnapshot.child("body").getValue().toString();
                 Long time = (Long) dataSnapshot.child("time").getValue();
-                if (tvTitle != null) {
+                if (title != null) {
                     tvTitle.setText(title.toUpperCase());
                 } else {
                     Toast.makeText(PostDetailed.this, "Check your internet connection and try again", Toast.LENGTH_SHORT).show();

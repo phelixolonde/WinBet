@@ -8,8 +8,15 @@ public class Model {
     private String title;
     private String body;
     private Long time;
+    private String key;
 
+    public String getKey() {
+        return key;
+    }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public Model() {
     }

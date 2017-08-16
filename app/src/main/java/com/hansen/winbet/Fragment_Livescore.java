@@ -33,6 +33,10 @@ public class Fragment_Livescore extends Fragment {
     View v;
     SwipeRefreshLayout refresher;
 
+    public Fragment_Livescore(){
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

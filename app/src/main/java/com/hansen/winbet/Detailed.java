@@ -120,7 +120,7 @@ public class Detailed extends AppCompatActivity {
         } else if (title.equalsIgnoreCase("Holland Eredivisie")) {
             webView.loadUrl("https://www.foxsports.com/soccer/standings?competition=15");
 
-        } else if (title.equalsIgnoreCase("Portugal Primera Liga")) {
+        } else if (title.equalsIgnoreCase("Portugal Primeira Liga")) {
             webView.loadUrl("https://www.foxsports.com/soccer/standings?competition=16");
 
         }

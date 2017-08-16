@@ -65,6 +65,9 @@ public class Fragment_News extends Fragment {
     ProgressDialog pDialog;
     DatabaseReference nRef;
 
+    public Fragment_News() {
+
+    }
 
     @Nullable
     @Override
@@ -117,77 +120,6 @@ public class Fragment_News extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getFeed("http://wangchieng.000webhostapp.com/winbet/newsfeed.php");
-    }
-
-    public void getFeed(String url) {
-        String tag_json_obj = "json_obj_req";
-        Long tsLong = 1 - System.currentTimeMillis() / 1000;
-        String ts = tsLong.toString();
-        nRef = dbref.child("newsfeed").child(ts);
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-
-        //getting the request object
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        pDialog.hide();
-
-
-                        if (response != null) {
-                            result.setText(response.toString());
-
-                            JSONObject jsonObject;
-
-                            try {
-                                jsonObject = new JSONObject(response.toString());
-
-                                JSONObject objectChannel = (JSONObject) jsonObject.get("channel");
-                                JSONArray arrayItems = (JSONArray) objectChannel.get("item");
-
-                                for (int i = 0; i < arrayItems.length(); i++) {
-
-                                    String title = arrayItems.getJSONObject(i).getString("title");
-                                    String description = arrayItems.getJSONObject(i).getString("description");
-                                    String link = arrayItems.getJSONObject(i).getString("link");
-                                    String pubDate = arrayItems.getJSONObject(i).getString("pubDate");
-                                    //String author = arrayItems.getJSONObject(i).getString("author");
-//                                    String image = arrayItems.getJSONObject(i).getString("media:thumbnail");
-
-                                    Toast.makeText(getContext(), "title= " + arrayItems.getJSONObject(i).getString("title"), Toast.LENGTH_SHORT).show();
-
-                                    /*nRef.child("title").setValue(title);
-                                    nRef.child("description").setValue(description);
-                                    nRef.child("link").setValue(link);
-                                    nRef.child("pubDate").setValue(pubDate);
-                                    nRef.child("author").setValue(author);
-                                    nRef.child("image").setValue(image);*/
-
-
-                                }
-
-                            } catch (JSONException e) {
-                                Log.e("DECODING", "JSON EXCEPTION", e);
-                            }
-
-                            //repoList.setAdapter(adapter);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
-            }
-        });
-
-        WinBet.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
 

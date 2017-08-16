@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("posts");
+
+
         dev_id = FirebaseInstanceId.getInstance().getToken();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
 
-                    return new Fragment_Tips();
+                    return new FragmentTips();
                 case 2:
 
                     return new FragmentStandings();
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            return new Fragment_Tips();
+            return new FragmentTips();
         }
 
         @Override

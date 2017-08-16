@@ -28,7 +28,7 @@ public class FragmentStandings extends Fragment {
     View v;
     String[] leagues = {"Barclays Premier League", "Spanish La Liga", "German Bundesliga", "French Ligue 1", "Italian Serie A"
             , "MLS", "UEFA Champions League", "UEFA Europa League", "England Championship", "England Ligue 1",
-            "England Ligue 2", "Belgium Jupiler League", "Brazil Serie A", "Holland Eredivisie", "Portugal Primera Liga", "Turkish Super Lig"};
+            "England Ligue 2", "Belgium Jupiler League", "Brazil Serie A", "Holland Eredivisie", "Portugal Primeira Liga", "Turkish Super Lig"};
 
     ListView listView;
 

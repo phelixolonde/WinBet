@@ -15,15 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -31,36 +32,57 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment_Tips extends Fragment {
     RecyclerView recyclerView;
-    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("winbet");
+    DatabaseReference dbref;
     TextView loading;
     Intent serviceIntent;
     View v;
     SwipeRefreshLayout refresher;
-   // private AdView mBannerAd;
+    // private AdView mBannerAd;
 
     static SQLiteDatabase db;
     int seenPosts;
     LinearLayoutManager lm;
+    String postKey;
+    FirebaseRecyclerAdapter<Model, MyViewHolder> recyclerAdapter;
+
+
+    public Fragment_Tips() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.activity_home, container, false);
         //mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
 
+        dbref = FirebaseDatabase.getInstance().getReference().child("winbettest");
+        dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (recyclerAdapter != null)
+                    recyclerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         db = getActivity().openOrCreateDatabase("reads", MODE_PRIVATE, null);
         db.execSQL("create table if not exists table_read(ids varchar)");
         serviceIntent = new Intent(getActivity(), ShorcutService.class);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
-        //recyclerView.setHasFixedSize(true);
-         lm = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(lm);
 
+//checking the number of posts a user has read from sqliteDatabase
         String s = "select * from table_read";
         Cursor c = db.rawQuery(s, null);
         do {
             try {
                 seenPosts = c.getCount();
-                serviceIntent.putExtra("seenPosts",seenPosts);
+                serviceIntent.putExtra("seenPosts", seenPosts);
                 getActivity().startService(serviceIntent);
 
             } catch (Exception e) {
@@ -70,7 +92,7 @@ public class Fragment_Tips extends Fragment {
         c.close();
 
 
-        //showBannerAd();
+        //showNativeAd();
 
         final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
         adView.loadAd(new AdRequest.Builder().build());
@@ -83,7 +105,6 @@ public class Fragment_Tips extends Fragment {
 
 
         loading = (TextView) v.findViewById(R.id.loading);
-        dbref.keepSynced(true);
 
 
         refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
@@ -95,28 +116,23 @@ public class Fragment_Tips extends Fragment {
             }
         });
 
-        //getActivity().setTitle("TIPS ("+read.size()+")");
-//\\getActivity().getActionBar().setTitle("TIPS ("+read.size()+")");
-
 
         return v;
     }
-
-
-    /*private void showBannerAd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mBannerAd.loadAd(adRequest);
-
-    }*/
 
 
     @Override
     public void onStart() {
         super.onStart();
 
+
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(false);
+        lm = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(lm);
+
         refresher.setRefreshing(true);
-        final FirebaseRecyclerAdapter<Model, MyViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Model, MyViewHolder>(
+        recyclerAdapter = new FirebaseRecyclerAdapter<Model, MyViewHolder>(
                 Model.class,
                 R.layout.row,
                 MyViewHolder.class,
@@ -126,8 +142,7 @@ public class Fragment_Tips extends Fragment {
 
             @Override
             protected void populateViewHolder(MyViewHolder viewHolder, Model model, int position) {
-                final String postKey = getRef(position).getKey();
-
+                postKey = getRef(position).getKey();
 
 
                 viewHolder.setTitle(model.getTitle(), postKey);
@@ -149,35 +164,31 @@ public class Fragment_Tips extends Fragment {
             }
 
         };
-      /*  recyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = recyclerAdapter.getItemCount();
-                int lastVisiblePosition =
-                        lm.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
-                    recyclerView.scrollToPosition(positionStart);
-                }
-            }
-        });*/
-      recyclerAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        recyclerAdapter.cleanup();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recyclerAdapter.cleanup();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         View v;
-        ArrayList read1;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-
         }
 
         public void setTitle(String title, String post_key) {
@@ -185,7 +196,7 @@ public class Fragment_Tips extends Fragment {
             postTitle.setText(title.toUpperCase());
             String s = "select * from table_read";
             Cursor c = db.rawQuery(s, null);
-            if (c !=null && c.moveToFirst()) {
+            if (c != null && c.moveToFirst()) {
                 do {
 
 
