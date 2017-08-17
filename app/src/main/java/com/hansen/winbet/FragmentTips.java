@@ -27,17 +27,18 @@ import java.util.List;
 
 public class FragmentTips extends Fragment {
 
-    public  RecyclerView recyclerListView;
-    public  MyRecyclerAdapter myAdapter;
+    public RecyclerView recyclerListView;
+    public MyRecyclerAdapter myAdapter;
     DatabaseReference databaseReference;
     TextView loading;
     View v;
     SwipeRefreshLayout refresher;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.activity_home, container, false);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         creatingLayouts();
 
         final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
@@ -52,7 +53,7 @@ public class FragmentTips extends Fragment {
         return v;
     }
 
-    public void creatingLayouts(){
+    public void creatingLayouts() {
 
         refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
         refresher.setRefreshing(true);
@@ -60,25 +61,29 @@ public class FragmentTips extends Fragment {
         refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (myAdapter!=null){
-                myAdapter.notifyDataSetChanged();
-            }}
-        });
-        loading= (TextView) v.findViewById(R.id.loading);
+                if (myAdapter != null) {
+                    updateAdapter();
 
-        recyclerListView=(RecyclerView) v.findViewById(R.id.recycler);
+                }
+            }
+        });
+        loading = (TextView) v.findViewById(R.id.loading);
+
+        recyclerListView = (RecyclerView) v.findViewById(R.id.recycler);
+        recyclerListView.setHasFixedSize(false);
         recyclerListView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        myAdapter= new MyRecyclerAdapter(getContext());
+        myAdapter = new MyRecyclerAdapter(getContext());
         updateAdapter();
         recyclerListView.setAdapter(myAdapter);
     }
 
 
     //update adapter
-    public void updateAdapter(){
+    public void updateAdapter() {
 
-        final List<Model> listPosts= new ArrayList<>();
+        final List<Model> listPosts = new ArrayList<>();
+        listPosts.clear();
         databaseReference.child("winbet").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -104,7 +109,7 @@ public class FragmentTips extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(),"Canceled",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,7 +117,7 @@ public class FragmentTips extends Fragment {
     }
 
 
-    public void displayPosts(List<Model> ls){
+    public void displayPosts(List<Model> ls) {
         refresher.setRefreshing(false);
         loading.setVisibility(View.GONE);
         recyclerListView.setVisibility(View.VISIBLE);

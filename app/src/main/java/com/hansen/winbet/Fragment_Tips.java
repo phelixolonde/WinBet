@@ -56,7 +56,7 @@ public class Fragment_Tips extends Fragment {
         v = inflater.inflate(R.layout.activity_home, container, false);
         //mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
 
-        dbref = FirebaseDatabase.getInstance().getReference().child("winbettest");
+        dbref = FirebaseDatabase.getInstance().getReference().child("winbet");
         dbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

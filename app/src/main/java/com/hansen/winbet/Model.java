@@ -8,15 +8,18 @@ public class Model {
     private String title;
     private String body;
     private Long time;
-    private String key;
+    private String id;
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
+
+
+
 
     public Model() {
     }

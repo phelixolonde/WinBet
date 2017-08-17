@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
 
-                    return new FragmentTips();
+                    return new Fragment_Tips();
                 case 2:
 
                     return new FragmentStandings();
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            return new FragmentTips();
+            return new Fragment_Tips();
         }
 
         @Override

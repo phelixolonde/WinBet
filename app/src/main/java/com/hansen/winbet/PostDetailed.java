@@ -21,11 +21,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class PostDetailed extends AppCompatActivity {
-    DatabaseReference mRef;
+    DatabaseReference xRef= FirebaseDatabase.getInstance().getReference().child("winbet");
     String postKey;
     TextView tvTitle, tvBody, tvTime;
     private InterstitialAd mInterstitialAd;
-    Query q;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class PostDetailed extends AppCompatActivity {
         }
         setContentView(R.layout.activity_post_detailed);
 
-        postKey = getIntent().getExtras().getString("post_key");
+        postKey = getIntent().getExtras().getString("postKey");
         tvBody = (TextView) findViewById(R.id.tvBody);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTime = (TextView) findViewById(R.id.post_time);
@@ -54,36 +54,37 @@ public class PostDetailed extends AppCompatActivity {
 
         if (postKey != null) {
 
-            mRef = FirebaseDatabase.getInstance().getReference().child("winbet");
-            q=mRef.orderByChild("time").equalTo(postKey);
+            Toast.makeText(this, "postkey="+postKey, Toast.LENGTH_SHORT).show();
+            DatabaseReference nRef=xRef.child(postKey);
+            nRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String title = dataSnapshot.child("title").getValue().toString();
+                    String body = dataSnapshot.child("body").getValue().toString();
+                    Long time = (Long) dataSnapshot.child("time").getValue();
+                    if (title != null) {
+                        tvTitle.setText(title.toUpperCase());
+                    } else {
+                        Toast.makeText(PostDetailed.this, "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                    }
+                    if (body != null) {
+                        tvBody.setText(body);
+
+                    }
+                    if (time != null) {
+                        setTime(time);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
         }
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String title = dataSnapshot.child("title").getValue().toString();
-                String body = dataSnapshot.child("body").getValue().toString();
-                Long time = (Long) dataSnapshot.child("time").getValue();
-                if (title != null) {
-                    tvTitle.setText(title.toUpperCase());
-                } else {
-                    Toast.makeText(PostDetailed.this, "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
-                }
-                if (body != null) {
-                    tvBody.setText(body);
 
-                }
-                if (time != null) {
-                    setTime(time);
-                }
-
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
