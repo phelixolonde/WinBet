@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("posts");
+
+
         dev_id = FirebaseInstanceId.getInstance().getToken();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
