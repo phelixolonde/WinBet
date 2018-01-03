@@ -49,15 +49,5 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
-    <!-- view for AdMob Banner Ad -->
-    <!--<com.google.android.gms.ads.AdView
-        android:id="@+id/banner_AdView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_id_banner"
-        android:layout_marginBottom="60dp"
-        />-->
+
 </RelativeLayout>

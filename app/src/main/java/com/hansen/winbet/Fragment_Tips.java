@@ -36,11 +36,16 @@ public class Fragment_Tips extends Fragment {
     Intent serviceIntent;
     View v;
     SwipeRefreshLayout refresher;
-   // private AdView mBannerAd;
+    // private AdView mBannerAd;
 
     static SQLiteDatabase db;
     int seenPosts;
     LinearLayoutManager lm;
+
+    public Fragment_Tips() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,17 +55,14 @@ public class Fragment_Tips extends Fragment {
         db = getActivity().openOrCreateDatabase("reads", MODE_PRIVATE, null);
         db.execSQL("create table if not exists table_read(ids varchar)");
         serviceIntent = new Intent(getActivity(), ShorcutService.class);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
-        //recyclerView.setHasFixedSize(true);
-         lm = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(lm);
 
+//checking the number of posts a user has read from sqliteDatabase
         String s = "select * from table_read";
         Cursor c = db.rawQuery(s, null);
         do {
             try {
                 seenPosts = c.getCount();
-                serviceIntent.putExtra("seenPosts",seenPosts);
+                serviceIntent.putExtra("seenPosts", seenPosts);
                 getActivity().startService(serviceIntent);
 
             } catch (Exception e) {
@@ -70,7 +72,7 @@ public class Fragment_Tips extends Fragment {
         c.close();
 
 
-        //showBannerAd();
+        //showNativeAd();
 
         final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
         adView.loadAd(new AdRequest.Builder().build());
@@ -83,7 +85,7 @@ public class Fragment_Tips extends Fragment {
 
 
         loading = (TextView) v.findViewById(R.id.loading);
-        dbref.keepSynced(true);
+       // dbref.keepSynced(true);
 
 
         refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
@@ -114,6 +116,10 @@ public class Fragment_Tips extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
+        //recyclerView.setHasFixedSize(true);
+        lm = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(lm);
 
         refresher.setRefreshing(true);
         final FirebaseRecyclerAdapter<Model, MyViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Model, MyViewHolder>(
@@ -127,7 +133,6 @@ public class Fragment_Tips extends Fragment {
             @Override
             protected void populateViewHolder(MyViewHolder viewHolder, Model model, int position) {
                 final String postKey = getRef(position).getKey();
-
 
 
                 viewHolder.setTitle(model.getTitle(), postKey);
@@ -149,25 +154,10 @@ public class Fragment_Tips extends Fragment {
             }
 
         };
-      /*  recyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = recyclerAdapter.getItemCount();
-                int lastVisiblePosition =
-                        lm.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
-                    recyclerView.scrollToPosition(positionStart);
-                }
-            }
-        });*/
-      recyclerAdapter.notifyDataSetChanged();
+
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.notifyDataSetChanged();
+
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -185,7 +175,7 @@ public class Fragment_Tips extends Fragment {
             postTitle.setText(title.toUpperCase());
             String s = "select * from table_read";
             Cursor c = db.rawQuery(s, null);
-            if (c !=null && c.moveToFirst()) {
+            if (c != null && c.moveToFirst()) {
                 do {
 
 
@@ -212,44 +202,48 @@ public class Fragment_Tips extends Fragment {
         public void setTime(Long time) {
             TextView txtTime = (TextView) v.findViewById(R.id.postTime);
             //long elapsedDays=0,elapsedWeeks = 0, elapsedHours=0,elapsedMin=0;
-            long elapsedTime;
-            long currentTime = System.currentTimeMillis();
-            int elapsed = (int) ((currentTime - time) / 1000);
-            if (elapsed < 60) {
-                if (elapsed < 2) {
-                    txtTime.setText("Just Now");
-                } else {
-                    txtTime.setText(elapsed + " sec ago");
-                }
-            } else if (elapsed > 604799) {
-                elapsedTime = elapsed / 604800;
-                if (elapsedTime == 1) {
-                    txtTime.setText(elapsedTime + " week ago");
-                } else {
+            try {
+                long elapsedTime;
+                long currentTime = System.currentTimeMillis();
+                int elapsed = (int) ((currentTime - time) / 1000);
+                if (elapsed < 60) {
+                    if (elapsed < 2) {
+                        txtTime.setText("Just Now");
+                    } else {
+                        txtTime.setText(elapsed + " sec ago");
+                    }
+                } else if (elapsed > 604799) {
+                    elapsedTime = elapsed / 604800;
+                    if (elapsedTime == 1) {
+                        txtTime.setText(elapsedTime + " week ago");
+                    } else {
 
-                    txtTime.setText(elapsedTime + " weeks ago");
-                }
-            } else if (elapsed > 86399) {
-                elapsedTime = elapsed / 86400;
-                if (elapsedTime == 1) {
-                    txtTime.setText(elapsedTime + " day ago");
-                } else {
-                    txtTime.setText(elapsedTime + " days ago");
-                }
-            } else if (elapsed > 3599) {
-                elapsedTime = elapsed / 3600;
-                if (elapsedTime == 1) {
-                    txtTime.setText(elapsedTime + " hour ago");
-                } else {
-                    txtTime.setText(elapsedTime + " hours ago");
-                }
-            } else if (elapsed > 59) {
-                elapsedTime = elapsed / 60;
-                txtTime.setText(elapsedTime + " min ago");
+                        txtTime.setText(elapsedTime + " weeks ago");
+                    }
+                } else if (elapsed > 86399) {
+                    elapsedTime = elapsed / 86400;
+                    if (elapsedTime == 1) {
+                        txtTime.setText(elapsedTime + " day ago");
+                    } else {
+                        txtTime.setText(elapsedTime + " days ago");
+                    }
+                } else if (elapsed > 3599) {
+                    elapsedTime = elapsed / 3600;
+                    if (elapsedTime == 1) {
+                        txtTime.setText(elapsedTime + " hour ago");
+                    } else {
+                        txtTime.setText(elapsedTime + " hours ago");
+                    }
+                } else if (elapsed > 59) {
+                    elapsedTime = elapsed / 60;
+                    txtTime.setText(elapsedTime + " min ago");
 
 
+                }
+
+            } catch (Exception e) {
+                txtTime.setText("Moments ago");
             }
-
         }
     }
 }

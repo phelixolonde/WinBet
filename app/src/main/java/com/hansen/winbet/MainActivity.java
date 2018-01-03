@@ -2,11 +2,9 @@ package com.hansen.winbet;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -26,9 +23,6 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.pollfish.main.PollFish;
-import com.pollfish.main.PollFish.ParamsBuilder;
-import com.pollfish.constants.Position;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,13 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBack = false;
     String dev_id;
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        PollFish.initWith(this, new ParamsBuilder("060bb480-7c4b-497a-a1fa-1c3267e71569").build());
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
             alert.setTitle("WIN BET");
             try {
                 alert.setMessage("Version " + getApplication().getPackageManager().getPackageInfo(getPackageName(), 0).versionName +
-                        "\n Developed by Phelix Olonde \n " +
-                        "\n" +
-                        "Automata Software. \n" + "\n" +
+                        "\n"+"Automata Software. \n" + "\n" +
                         "All rights reserved \n"
                 );
             } catch (PackageManager.NameNotFoundException e) {
@@ -102,7 +88,10 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         } else if (id == R.id.feedback) {
             startActivity(new Intent(MainActivity.this, Feedback.class));
-
+        }else if(id==R.id.joinVip){
+            Intent in=new Intent(MainActivity.this,Feedback_Detailed.class);
+            in.putExtra("quiz","How to join VIP?");
+            startActivity(in);
         } else if (id == R.id.rate) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("RATE US PLEASE");

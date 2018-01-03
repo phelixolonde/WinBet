@@ -18,12 +18,21 @@
 
         />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#c0c0c0" />
+
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:background="@drawable/borders"
         android:orientation="horizontal">
 
         <TextView
@@ -41,7 +50,18 @@
             android:padding="10dp"
             android:text="1 min ago"
             android:textColor="#BDBDBD" />
+
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/ll"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#c0c0c0" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,7 +80,13 @@
                 android:layout_margin="10dp"
                 android:text="Congratulations to all winners of yesterday.
 We won 100%"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/imgBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <com.google.android.gms.ads.NativeExpressAdView
                 android:id="@+id/adView"

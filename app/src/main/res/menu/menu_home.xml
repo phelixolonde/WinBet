@@ -7,6 +7,8 @@
         android:icon="@mipmap/ic_share"
         android:title="@string/share"
         app:showAsAction="always" />
+    <item android:id="@+id/joinVip"
+        android:title="@string/join_vip"/>
     <item
         android:id="@+id/rate"
         android:title="@string/rate_us_please" />

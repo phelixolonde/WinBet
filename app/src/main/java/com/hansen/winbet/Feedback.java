@@ -1,54 +1,41 @@
 package com.hansen.winbet;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
-/**
- * Created by HANSEN on 5/1/2017.
- */
+
 public class Feedback extends AppCompatActivity {
-    Button btnSubmit;
-    EditText txtFeed, txtEmail;
-    String email;
+    ListView listView;
+    String faqs[] = new String[]{"How to join VIP?", "App not working", "Tips not loading", "Tips not arriving in time", "Ads are too much","I have another issue"};
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        if(getSupportActionBar()!=null) {
+        if(getSupportActionBar() !=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        btnSubmit = (Button) findViewById(R.id.btnfeed);
-        txtFeed = (EditText) findViewById(R.id.txtFeed);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
-        email = txtEmail.getText().toString();
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        listView = (ListView) findViewById(R.id.listFeedback);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, faqs);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if (email != null) {
-                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "phelixolonde@gmail.com", null));
-                    //intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_EMAIL, email);
-                    intent.putExtra(Intent.EXTRA_SUBJECT,"Win Bet Feedback");
-                    intent.putExtra(Intent.EXTRA_TEXT, txtFeed.getText());
-                    startActivity(Intent.createChooser(intent, "Send using"));
-
-                } else {
-                    Toast.makeText(Feedback.this, "please provide your email address", Toast.LENGTH_SHORT).show();
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(Feedback.this, Feedback_Detailed.class);
+                intent.putExtra("quiz",listView.getItemAtPosition(i).toString());
+                startActivity(intent);
             }
         });
+
 
     }
 
@@ -57,8 +44,8 @@ public class Feedback extends AppCompatActivity {
         int id=item.getItemId();
         if(id==android.R.id.home){
             finish();
-
         }
+
         return super.onOptionsItemSelected(item);
     }
 

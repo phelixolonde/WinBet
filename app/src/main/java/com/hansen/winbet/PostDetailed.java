@@ -1,10 +1,12 @@
 package com.hansen.winbet;
 
+import android.app.ProgressDialog;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ public class PostDetailed extends AppCompatActivity {
     String postKey;
     TextView tvTitle, tvBody, tvTime;
     private InterstitialAd mInterstitialAd;
+    ImageView imgBody;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,10 @@ public class PostDetailed extends AppCompatActivity {
         tvBody = (TextView) findViewById(R.id.tvBody);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTime = (TextView) findViewById(R.id.post_time);
+        imgBody = (ImageView) findViewById(R.id.imgBody);
+        pd=new ProgressDialog(this);
+        pd.setMessage("Loading...");
+        pd.show();
 
         final NativeExpressAdView adView = (NativeExpressAdView) findViewById(R.id.adView);
         adView.loadAd(new AdRequest.Builder().build());
@@ -57,22 +65,31 @@ public class PostDetailed extends AppCompatActivity {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String title = dataSnapshot.child("title").getValue().toString();
-                String body = dataSnapshot.child("body").getValue().toString();
-                Long time = (Long) dataSnapshot.child("time").getValue();
-                if (tvTitle != null) {
-                    tvTitle.setText(title.toUpperCase());
-                } else {
-                    Toast.makeText(PostDetailed.this, "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
-                }
-                if (body != null) {
-                    tvBody.setText(body);
+                try {
+                    String title = dataSnapshot.child("title").getValue().toString();
+                    String body = dataSnapshot.child("body").getValue().toString();
+                    Long time = (Long) dataSnapshot.child("time").getValue();
+                    if (title != null) {
+                        tvTitle.setText(title.toUpperCase());
+                        pd.dismiss();
+                    } else {
+                        Toast.makeText(PostDetailed.this, "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                    }
+                    if (body != null) {
+                        tvBody.setText(body);
 
-                }
-                if (time != null) {
-                    setTime(time);
-                }
+                    }
+                    if (time != null) {
+                        setTime(time);
+                    }
+                    if (dataSnapshot.hasChild("image")) {
+                        String image = (String) dataSnapshot.child("image").getValue();
 
+                    }
+                }catch (Exception e){
+                    tvTitle.setText("");
+                    tvBody.setText("");
+                }
             }
 
 

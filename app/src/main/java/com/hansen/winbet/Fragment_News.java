@@ -57,47 +57,50 @@ public class Fragment_News extends Fragment {
     private static final String TAG = "VOLLEY";
     RecyclerView recyclerView;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("winbet");
-    TextView loading, result;
-    SharedPreferences sp;
+    TextView loading;
+
     View v;
     SwipeRefreshLayout refresher;
-    TextView feedTitle, feedDesc, feedLink;
     ProgressDialog pDialog;
     DatabaseReference nRef;
+    private String urlJsonObj = "https://newsapi.org/v1/articles?source=bbc-sport&apiKey=100c60eefc1a493c9ff9e0bada164f66";
+    String title, description, image, url, time;
+    List<NewsModel> data=new ArrayList<>();
+    private AdapterNews mAdapter;
 
+    public Fragment_News() {
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_news, container, false);
 
-
-        /*recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
-        recyclerView.setHasFixedSize(true);
+        getNewsFeed();
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_news);
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(lm);*/
 
-        result = (TextView) v.findViewById(R.id.txtResult);
-        /*
-        feedDesc= (TextView) v.findViewById(R.id.feedDesc);
-        feedLink= (TextView) v.findViewById(R.id.feedLink);*/
+        recyclerView.setLayoutManager(lm);
 
 
-       /* final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
+
+
+
+        final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
         adView.loadAd(new AdRequest.Builder().build());
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 adView.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
         loading = (TextView) v.findViewById(R.id.loading);
         dbref.keepSynced(true);
-        sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sp.edit().clear().apply();
 
 
-        refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
+
+       refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
         refresher.setColorSchemeResources(R.color.blue, R.color.lightBlue, R.color.deepPurple, R.color.purple, R.color.pink, R.color.orange, R.color.red);
         refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,8 +109,6 @@ public class Fragment_News extends Fragment {
             }
         });
 
-        //getActivity().setTitle("TIPS ("+read.size()+")");
-//\\getActivity().getActionBar().setTitle("TIPS ("+read.size()+")");
 
 
         return v;
@@ -117,78 +118,58 @@ public class Fragment_News extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getFeed("http://wangchieng.000webhostapp.com/winbet/newsfeed.php");
+        getNewsFeed();
+
+
     }
 
-    public void getFeed(String url) {
-        String tag_json_obj = "json_obj_req";
-        Long tsLong = 1 - System.currentTimeMillis() / 1000;
-        String ts = tsLong.toString();
-        nRef = dbref.child("newsfeed").child(ts);
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-
-        //getting the request object
+    public void getNewsFeed() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
+                urlJsonObj, null, new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        pDialog.hide();
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
 
+                try {
+                    JSONArray array = response.getJSONArray("articles");
 
-                        if (response != null) {
-                            result.setText(response.toString());
-
-                            JSONObject jsonObject;
-
-                            try {
-                                jsonObject = new JSONObject(response.toString());
-
-                                JSONObject objectChannel = (JSONObject) jsonObject.get("channel");
-                                JSONArray arrayItems = (JSONArray) objectChannel.get("item");
-
-                                for (int i = 0; i < arrayItems.length(); i++) {
-
-                                    String title = arrayItems.getJSONObject(i).getString("title");
-                                    String description = arrayItems.getJSONObject(i).getString("description");
-                                    String link = arrayItems.getJSONObject(i).getString("link");
-                                    String pubDate = arrayItems.getJSONObject(i).getString("pubDate");
-                                    //String author = arrayItems.getJSONObject(i).getString("author");
-//                                    String image = arrayItems.getJSONObject(i).getString("media:thumbnail");
-
-                                    Toast.makeText(getContext(), "title= " + arrayItems.getJSONObject(i).getString("title"), Toast.LENGTH_SHORT).show();
-
-                                    /*nRef.child("title").setValue(title);
-                                    nRef.child("description").setValue(description);
-                                    nRef.child("link").setValue(link);
-                                    nRef.child("pubDate").setValue(pubDate);
-                                    nRef.child("author").setValue(author);
-                                    nRef.child("image").setValue(image);*/
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject article = (JSONObject) array.get(i);
+                        NewsModel newsModel=new NewsModel();
+                        newsModel.title = article.getString("title");
+                        newsModel.description = article.getString("description");
+                        newsModel.image=article.getString("urlToImage");
+                        newsModel.url=article.getString("url");
+                        newsModel.time="moments ago";
+                        data.add(newsModel);
 
 
-                                }
-
-                            } catch (JSONException e) {
-                                Log.e("DECODING", "JSON EXCEPTION", e);
-                            }
-
-                            //repoList.setAdapter(adapter);
-                        }
                     }
-                }, new Response.ErrorListener() {
+                    mAdapter=new AdapterNews(getContext(),data);
+                    recyclerView.setAdapter(mAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),
+                            "Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                Toast.makeText(getContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        WinBet.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+        WinBet.getInstance().addToRequestQueue(jsonObjReq);
     }
-
-
 }
+
+

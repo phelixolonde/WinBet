@@ -3,45 +3,35 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_home">
-
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Result" />
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refresher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_news"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+       />
+      </android.support.v4.widget.SwipeRefreshLayout>
 
-            >
 
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.google.android.gms.ads.NativeExpressAdView
-        android:layout_alignParentBottom="true"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adSize="350x250"
-      
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="@string/native_ad"
+        ads:adSize="350x140"
+        android:visibility="gone"
         />
-   // ads:adUnitId="@string/native_ad"
+
 </RelativeLayout>

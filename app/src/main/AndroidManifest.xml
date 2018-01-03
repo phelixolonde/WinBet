@@ -28,14 +28,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http"
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="example.com"
                     android:pathPrefix="/hello"
-                    />
-                </intent-filter>
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
@@ -46,11 +48,18 @@
         <service android:name=".ShorcutService" />
 
         <activity
-            android:name=".Feedback"
+            android:name=".Email_Admin"
             android:label="Email Admin" />
+        <activity
+            android:name=".Feedback"
+            android:label="Feedback" />
         <activity
             android:name=".Detailed"
             android:label="STANDINGS" />
+        <activity android:name=".Feedback_Detailed" />
+        <activity android:name=".News_Detailed"
+            android:label="News Feed"
+            />
     </application>
 
 </manifest>
