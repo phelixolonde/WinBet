@@ -24,14 +24,13 @@
 
 
 
-    <com.google.android.gms.ads.NativeExpressAdView
-        android:id="@+id/adView"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner_AdView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        ads:adUnitId="@string/native_ad"
-        ads:adSize="350x140"
-        android:visibility="gone"
-        />
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_id_banner" />
 
 </RelativeLayout>

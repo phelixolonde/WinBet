@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -16,10 +16,15 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+
 public class News_Detailed extends AppCompatActivity {
     WebView webView;
     String url;
     TextView txtLoad;
+    private AdView mBannerAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class News_Detailed extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
+        showBannerAd();
         url = getIntent().getExtras().getString("url");
 
         txtLoad = (TextView) findViewById(R.id.txtLoad);
@@ -106,5 +113,11 @@ public class News_Detailed extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
+
     }
 }

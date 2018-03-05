@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hansen.winbet">
+    package="com.automata.winbet">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".WinBet"
+        android:name="com.automata.winbet.WinBet"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,7 +19,7 @@
             android:resource="@mipmap/ic_launcher" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.automata.winbet.MainActivity"
             android:label="Win Bet"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -43,21 +43,21 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".PostDetailed" />
+        <activity android:name="com.automata.winbet.PostDetailed" />
 
-        <service android:name=".ShorcutService" />
+        <service android:name="com.automata.winbet.ShorcutService" />
 
         <activity
-            android:name=".Email_Admin"
+            android:name="com.automata.winbet.Email_Admin"
             android:label="Email Admin" />
         <activity
-            android:name=".Feedback"
+            android:name="com.automata.winbet.Feedback"
             android:label="Feedback" />
         <activity
-            android:name=".Detailed"
+            android:name="com.automata.winbet.Detailed"
             android:label="STANDINGS" />
-        <activity android:name=".Feedback_Detailed" />
-        <activity android:name=".News_Detailed"
+        <activity android:name="com.automata.winbet.Feedback_Detailed" />
+        <activity android:name="com.automata.winbet.News_Detailed"
             android:label="News Feed"
             />
     </application>

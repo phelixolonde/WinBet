@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 /**

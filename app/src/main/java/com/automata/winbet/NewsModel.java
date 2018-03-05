@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 /**
  * Created by Hansen on 03-Aug-17.
@@ -9,6 +9,6 @@ public class NewsModel {
     String description;
     String time;
     String url;
-    String image;
+
 
 }

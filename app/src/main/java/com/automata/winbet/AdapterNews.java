@@ -1,16 +1,14 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -45,22 +43,13 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         myHolder.newsTitle.setText(current.title);
         myHolder.newsTime.setText(current.time);
-
-            //Picasso.with(context).load(current.image).into(myHolder.newsImage);
-        Picasso.Builder builder=new Picasso.Builder(context);
-        builder.listener(new Picasso.Listener() {
-            @Override
-            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-        builder.build().load(current.image).into(myHolder.newsImage);
+        myHolder.newsDesc.setText(current.description);
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context,News_Detailed.class);
-                intent.putExtra("url",current.url);
+                Intent intent = new Intent(context, News_Detailed.class);
+                intent.putExtra("url", current.url);
                 context.startActivity(intent);
             }
         });
@@ -79,16 +68,14 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class MyHolder extends RecyclerView.ViewHolder {
 
         TextView newsTitle;
-        ImageView newsImage;
-        TextView newsTime;
+        TextView newsTime, newsDesc;
 
 
         public MyHolder(View itemView) {
             super(itemView);
             newsTitle = (TextView) itemView.findViewById(R.id.newsTitle);
-            newsImage = (ImageView) itemView.findViewById(R.id.newsImage);
             newsTime = (TextView) itemView.findViewById(R.id.newsTime);
-
+            newsDesc = (TextView) itemView.findViewById(R.id.newsDesc);
         }
 
     }

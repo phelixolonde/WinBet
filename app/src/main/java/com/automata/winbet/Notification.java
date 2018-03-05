@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;

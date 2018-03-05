@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 /**
  * Created by HANSEN on 5/1/2017.
@@ -18,7 +22,7 @@ public class Email_Admin extends AppCompatActivity {
     Button btnSubmit;
     EditText txtFeed, txtEmail;
     String email;
-
+    private AdView mBannerAd;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,7 @@ public class Email_Admin extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "phelixolonde@gmail.com", null));
                     //intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_EMAIL, email);
-                    intent.putExtra(Intent.EXTRA_SUBJECT,"Win Bet Email_Admin");
+                    intent.putExtra(Intent.EXTRA_SUBJECT,"Win Bet Email Admin");
                     intent.putExtra(Intent.EXTRA_TEXT, txtFeed.getText());
                     startActivity(Intent.createChooser(intent, "Send using"));
 
@@ -49,9 +53,15 @@ public class Email_Admin extends AppCompatActivity {
                 }
             }
         });
+        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
+        showBannerAd();
+    }
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();

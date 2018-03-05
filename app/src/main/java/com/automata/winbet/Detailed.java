@@ -1,35 +1,25 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.DownloadListener;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 public class Detailed extends AppCompatActivity {
@@ -38,12 +28,12 @@ public class Detailed extends AppCompatActivity {
     WebView webView;
     private InterstitialAd mInterstitialAd;
     ProgressBar progressBar;
-
+    private AdView mBannerAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed);
+        setContentView(R.layout.activity_standing_detailed);
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setMax(100);
 
@@ -60,6 +50,9 @@ public class Detailed extends AppCompatActivity {
 
         loadIntAdd();
         showIntAdd();
+
+        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
+        showBannerAd();
 
 
         webView = (WebView) findViewById(R.id.webView);
@@ -80,7 +73,12 @@ public class Detailed extends AppCompatActivity {
 
 
     }
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
+    }
 
     private void LoadPage(String title) {
         if (title.equalsIgnoreCase("Barclays Premier League")) {

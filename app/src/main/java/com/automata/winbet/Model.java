@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 /**
  * Created by Hansen on 23-Jun-17.

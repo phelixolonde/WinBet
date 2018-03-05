@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        FirebaseMessaging.getInstance().subscribeToTopic("posts");
+        FirebaseMessaging.getInstance().subscribeToTopic("winbet1");
 
 
         dev_id = FirebaseInstanceId.getInstance().getToken();
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("WIN BET");
             try {
-                alert.setMessage("Version " + getApplication().getPackageManager().getPackageInfo(getPackageName(), 0).versionName +
+                alert.setMessage("Version " + getApplication().getPackageManager().getPackageInfo(getPackageName(), 0).versionCode +
                         "\n"+"Automata Software. \n" + "\n" +
                         "All rights reserved \n"
                 );
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.menu_share) {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            String shareBody = "I've been winning big with this Win Bet app. Download here https://play.google.com/store/apps/details?id=com.hansen.winbet";
+            String shareBody = "I've been winning big with this Win Bet app. Download here https://play.google.com/store/apps/details?id=com.automata.winbet";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Win Bet App");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(sharingIntent);

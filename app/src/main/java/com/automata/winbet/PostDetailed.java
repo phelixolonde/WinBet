@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.app.ProgressDialog;
 import android.os.Handler;
@@ -28,6 +28,8 @@ public class PostDetailed extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     ImageView imgBody;
     ProgressDialog pd;
+    private AdView mBannerAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +49,15 @@ public class PostDetailed extends AppCompatActivity {
         pd.setMessage("Loading...");
         pd.show();
 
-        final NativeExpressAdView adView = (NativeExpressAdView) findViewById(R.id.adView);
-        adView.loadAd(new AdRequest.Builder().build());
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                adView.setVisibility(View.VISIBLE);
-            }
-        });
+        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
+        showBannerAd();
+
         mInterstitialAd = createNewIntAd();
         loadIntAdd();
 
         if (postKey != null) {
 
-            mRef = FirebaseDatabase.getInstance().getReference().child("winbet").child(postKey);
+            mRef = FirebaseDatabase.getInstance().getReference().child("winbet1").child(postKey);
         }
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,7 +98,12 @@ public class PostDetailed extends AppCompatActivity {
 
     }
 
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
+    }
     private InterstitialAd createNewIntAd() {
         InterstitialAd intAd = new InterstitialAd(PostDetailed.this);
         // set the adUnitId (defined in values/strings.xml)

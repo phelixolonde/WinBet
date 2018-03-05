@@ -1,10 +1,11 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 
 public class Feedback_Detailed extends AppCompatActivity {
 
@@ -36,23 +37,14 @@ public class Feedback_Detailed extends AppCompatActivity {
                                 "-----------------------------------" + "\n" +
                                 "KENYANS: KSH.500" + "\n" +
                                 "OTHER COUNTRIES: 10 US DOLLARS" + "\n" + "\n" +
-                                "DURATION: 1 MONTH" + "\n" + "\n" +
+                                "DURATION: 4 MONTHS" + "\n" + "\n" +
                                 "PAYMENT METHODS" + "\n" +
                                 "------------------------------------" + "\n" +
 
                                 "MPESA: +254719275724" + "\n" +
                                 "PAYPAL: phelixolonde@gmail.com" + "\n" +
                                 "SKRILL: phelixolonde@gmail.com" + "\n" +
-                                "NETELLER: phelixolonde@gmail.com" + "\n" +
-                                "BITCOINS: 18yNpK6V8A4A6ZtWHkA95zFV3Bc343b18j" + "\n" + "\n" +
-                                "WESTERN UNION" + "\n" +
-                                "---------------------------------" + "\n" +
-                                "NAME:PHELIX OMONDI OLONDE" + "\n" +
-                                "COUNTRY: KENYA" + "\n" +
-                                "CITY: NAIROBI" + "\n" +
-                                "ADDRESS: 103-90119, MATUU" + "\n" +
-                                "PHONE: +254719275724")
-                ;
+                                "BITCOINS: 18yNpK6V8A4A6ZtWHkA95zFV3Bc343b18j");
 
                 break;
             case "App not working":

@@ -17,17 +17,17 @@
         android:text="loading..."
 
         />
-    <com.google.android.gms.ads.NativeExpressAdView
-        android:id="@+id/adView"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner_AdView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adUnitId="@string/native_ad"
-        ads:adSize="350x140"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
         android:visibility="gone"
-        >
-    </com.google.android.gms.ads.NativeExpressAdView>
+        ads:adUnitId="@string/ad_id_banner" />
+    
     <LinearLayout
-        android:layout_below="@id/adView"
+        android:layout_below="@id/banner_AdView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

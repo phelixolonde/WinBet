@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 
 import android.content.Context;
@@ -22,7 +22,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdView;
+
 
 public class Fragment_Livescore extends Fragment {
 
@@ -32,7 +33,7 @@ public class Fragment_Livescore extends Fragment {
     ProgressBar progressBar;
     View v;
     SwipeRefreshLayout refresher;
-
+    private AdView mBannerAd;
     public Fragment_Livescore(){
 
     }
@@ -45,8 +46,9 @@ public class Fragment_Livescore extends Fragment {
         progressBar.setMax(100);
 
 
-        //mInterstitialAd = createNewIntAd();
+        mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
 
+        showBannerAd();
 
         refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
         refresher.setColorSchemeResources(R.color.blue, R.color.lightBlue, R.color.deepPurple, R.color.purple, R.color.pink, R.color.orange, R.color.red);
@@ -88,7 +90,13 @@ public class Fragment_Livescore extends Fragment {
         return v;
     }
 
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
+
+    }
 
 
     public boolean canGoBack() {

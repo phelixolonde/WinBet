@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
@@ -31,12 +30,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment_Tips extends Fragment {
     RecyclerView recyclerView;
-    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("winbet");
+    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("winbet1");
     TextView loading;
     Intent serviceIntent;
     View v;
     SwipeRefreshLayout refresher;
-    // private AdView mBannerAd;
+    private AdView mBannerAd;
 
     static SQLiteDatabase db;
     int seenPosts;
@@ -50,7 +49,15 @@ public class Fragment_Tips extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.activity_home, container, false);
-        //mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
+        mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
+        mBannerAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                mBannerAd.setVisibility(View.VISIBLE);
+            }
+        });
+        showBannerAd();
 
         db = getActivity().openOrCreateDatabase("reads", MODE_PRIVATE, null);
         db.execSQL("create table if not exists table_read(ids varchar)");
@@ -72,16 +79,6 @@ public class Fragment_Tips extends Fragment {
         c.close();
 
 
-        //showNativeAd();
-
-        final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
-        adView.loadAd(new AdRequest.Builder().build());
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                adView.setVisibility(View.VISIBLE);
-            }
-        });
 
 
         loading = (TextView) v.findViewById(R.id.loading);
@@ -97,20 +94,19 @@ public class Fragment_Tips extends Fragment {
             }
         });
 
-        //getActivity().setTitle("TIPS ("+read.size()+")");
-//\\getActivity().getActionBar().setTitle("TIPS ("+read.size()+")");
 
 
         return v;
     }
 
 
-    /*private void showBannerAd() {
+    private void showBannerAd() {
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         mBannerAd.loadAd(adRequest);
 
-    }*/
+
+    }
 
 
     @Override

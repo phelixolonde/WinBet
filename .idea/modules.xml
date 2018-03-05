@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WinBet.iml" filepath="$PROJECT_DIR$/WinBet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/WinBet.iml" filepath="$PROJECT_DIR$/.idea/WinBet.iml" />
+      <module fileurl="file://D:\WORKSPACE\WinBet\WinBet.iml" filepath="D:\WORKSPACE\WinBet\WinBet.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

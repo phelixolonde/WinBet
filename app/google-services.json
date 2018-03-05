@@ -80,6 +80,130 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87117019170:android:2b88e46f1a28c2b5",
+        "android_client_info": {
+          "package_name": "com.hansen.winbetadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87117019170-ht7fh8m3ujn7souohjjra0a8jmg2vf44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Mf4txEeiGBRLHJZBGUyvHQyjGmygAQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87117019170:android:b954a0b52234767d",
+        "android_client_info": {
+          "package_name": "com.hansen.jp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87117019170-ht7fh8m3ujn7souohjjra0a8jmg2vf44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Mf4txEeiGBRLHJZBGUyvHQyjGmygAQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87117019170:android:be7e07d5ada9ae7d",
+        "android_client_info": {
+          "package_name": "com.hansen.jpadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87117019170-ht7fh8m3ujn7souohjjra0a8jmg2vf44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Mf4txEeiGBRLHJZBGUyvHQyjGmygAQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87117019170:android:7abc26bd40785722",
+        "android_client_info": {
+          "package_name": "com.automata.winbet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87117019170-ht7fh8m3ujn7souohjjra0a8jmg2vf44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Mf4txEeiGBRLHJZBGUyvHQyjGmygAQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

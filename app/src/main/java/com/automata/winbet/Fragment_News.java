@@ -1,29 +1,17 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,29 +20,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_News extends Fragment {
-    private static final String TAG = "VOLLEY";
+    private static final String TAG = "WINBET";
     RecyclerView recyclerView;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("winbet");
     TextView loading;
@@ -67,6 +47,7 @@ public class Fragment_News extends Fragment {
     String title, description, image, url, time;
     List<NewsModel> data=new ArrayList<>();
     private AdapterNews mAdapter;
+    private AdView mBannerAd;
 
     public Fragment_News() {
 
@@ -84,17 +65,9 @@ public class Fragment_News extends Fragment {
         recyclerView.setLayoutManager(lm);
 
 
+        mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
+        showBannerAd();
 
-
-
-        final NativeExpressAdView adView = (NativeExpressAdView) v.findViewById(R.id.adView);
-        adView.loadAd(new AdRequest.Builder().build());
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                adView.setVisibility(View.VISIBLE);
-            }
-        });
         loading = (TextView) v.findViewById(R.id.loading);
         dbref.keepSynced(true);
 
@@ -122,6 +95,12 @@ public class Fragment_News extends Fragment {
 
 
     }
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
+
+    }
 
     public void getNewsFeed() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
@@ -139,7 +118,6 @@ public class Fragment_News extends Fragment {
                         NewsModel newsModel=new NewsModel();
                         newsModel.title = article.getString("title");
                         newsModel.description = article.getString("description");
-                        newsModel.image=article.getString("urlToImage");
                         newsModel.url=article.getString("url");
                         newsModel.time="moments ago";
                         data.add(newsModel);
@@ -150,10 +128,8 @@ public class Fragment_News extends Fragment {
                     recyclerView.setAdapter(mAdapter);
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
+                    Log.e("WINBET",e.getMessage(),e);
+
                 }
 
             }
@@ -161,9 +137,7 @@ public class Fragment_News extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
 
             }
         });

@@ -1,4 +1,4 @@
-package com.hansen.winbet;
+package com.automata.winbet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 
 public class Feedback extends AppCompatActivity {
     ListView listView;
     String faqs[] = new String[]{"How to join VIP?", "App not working", "Tips not loading", "Tips not arriving in time", "Ads are too much","I have another issue"};
     ArrayAdapter<String> arrayAdapter;
-
+    private AdView mBannerAd;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,17 @@ public class Feedback extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
 
+        showBannerAd();
 
     }
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
