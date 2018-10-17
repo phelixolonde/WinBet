@@ -35,15 +35,19 @@ public class Feedback_Detailed extends AppCompatActivity {
                                 "*AFTER PAYMENT, YOU GET THE LINK TO VIP CHANNEL INSTANTLY" + "\n" + "\n" +
                                 "AMOUNT" + "\n" +
                                 "-----------------------------------" + "\n" +
-                                "KENYANS: KSH.500" + "\n" +
+                                "KENYANS: KSH.1000" + "\n" +
+                                "NIGERIA: NGN 4000" + "\n" +
+                                "TANZANIA: TZS 24000" + "\n" +
+                                "UGANDA: UGX 38000" + "\n" +
+                                "GHANA: 50 CEDIS" + "\n" +
                                 "OTHER COUNTRIES: 10 US DOLLARS" + "\n" + "\n" +
                                 "DURATION: 4 MONTHS" + "\n" + "\n" +
                                 "PAYMENT METHODS" + "\n" +
                                 "------------------------------------" + "\n" +
 
                                 "MPESA: +254719275724" + "\n" +
-                                "PAYPAL: phelixolonde@gmail.com" + "\n" +
-                                "SKRILL: phelixolonde@gmail.com" + "\n" +
+                                "PAYPAL: hansenphelix@gmail.com" + "\n" +
+                                "ECOBANK RAPID TRANSFER (Except Nigeria): Ask admin for details" + "\n" +
                                 "BITCOINS: 18yNpK6V8A4A6ZtWHkA95zFV3Bc343b18j");
 
                 break;

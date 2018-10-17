@@ -25,7 +25,7 @@ public class PostDetailed extends AppCompatActivity {
     DatabaseReference mRef;
     String postKey;
     TextView tvTitle, tvBody, tvTime;
-    private InterstitialAd mInterstitialAd;
+
     ImageView imgBody;
     ProgressDialog pd;
     private AdView mBannerAd;
@@ -52,8 +52,6 @@ public class PostDetailed extends AppCompatActivity {
         mBannerAd = (AdView) findViewById(R.id.banner_AdView);
         showBannerAd();
 
-        mInterstitialAd = createNewIntAd();
-        loadIntAdd();
 
         if (postKey != null) {
 
@@ -103,49 +101,6 @@ public class PostDetailed extends AppCompatActivity {
                 .build();
         mBannerAd.loadAd(adRequest);
 
-    }
-    private InterstitialAd createNewIntAd() {
-        InterstitialAd intAd = new InterstitialAd(PostDetailed.this);
-        // set the adUnitId (defined in values/strings.xml)
-        intAd.setAdUnitId(getString(R.string.interstitial));
-        intAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        showIntAdd();
-                    }
-                }, 6000);
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-
-
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Proceed to the next level.
-            }
-        });
-        return intAd;
-    }
-
-    private void loadIntAdd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-    private void showIntAdd() {
-
-// Show the ad if it's ready. Otherwise toast and reload the ad.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
     }
 
     @Override

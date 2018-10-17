@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,6 +48,7 @@ public class Fragment_News extends Fragment {
     String title, description, image, url, time;
     List<NewsModel> data=new ArrayList<>();
     private AdapterNews mAdapter;
+
     private AdView mBannerAd;
 
     public Fragment_News() {
@@ -68,6 +70,9 @@ public class Fragment_News extends Fragment {
         mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
         showBannerAd();
 
+
+
+
         loading = (TextView) v.findViewById(R.id.loading);
         dbref.keepSynced(true);
 
@@ -86,6 +91,7 @@ public class Fragment_News extends Fragment {
 
         return v;
     }
+
 
 
     @Override

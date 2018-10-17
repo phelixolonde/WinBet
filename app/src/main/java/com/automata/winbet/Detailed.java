@@ -26,7 +26,7 @@ public class Detailed extends AppCompatActivity {
 
     String title;
     WebView webView;
-    private InterstitialAd mInterstitialAd;
+
     ProgressBar progressBar;
     private AdView mBannerAd;
 
@@ -46,10 +46,6 @@ public class Detailed extends AppCompatActivity {
         title = getIntent().getExtras().getString("title");
 
 
-        mInterstitialAd = createNewIntAd();
-
-        loadIntAdd();
-        showIntAdd();
 
         mBannerAd = (AdView) findViewById(R.id.banner_AdView);
         showBannerAd();
@@ -124,42 +120,6 @@ public class Detailed extends AppCompatActivity {
         }
     }
 
-    private InterstitialAd createNewIntAd() {
-        InterstitialAd intAd = new InterstitialAd(this);
-        // set the adUnitId (defined in values/strings.xml)
-        intAd.setAdUnitId(getString(R.string.interstitial));
-        intAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                showIntAdd();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Proceed to the next level.
-            }
-        });
-        return intAd;
-    }
-
-    private void loadIntAdd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-    private void showIntAdd() {
-
-// Show the ad if it's ready. Otherwise toast and reload the ad.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
-    }
 
     private class myWebChrome extends WebChromeClient {
         @Override

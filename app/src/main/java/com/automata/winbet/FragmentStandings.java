@@ -37,25 +37,45 @@ public class FragmentStandings extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_h2h, container, false);
 
+        mInterstitialAd = createNewIntAd();
+
+
+        // getSupportActionBar().setTitle(title);
+        loadIntAdd();
+
         listView = (ListView) v.findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, leagues);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(),Detailed.class);
-                intent.putExtra("title",listView.getItemAtPosition(position).toString());
-                startActivity(intent);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        showIntAdd();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        Intent intent = new Intent(getActivity(), Detailed.class);
+                        intent.putExtra("title", listView.getItemAtPosition(position).toString());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onAdClosed() {
+                        Intent intent = new Intent(getActivity(), Detailed.class);
+                        intent.putExtra("title", listView.getItemAtPosition(position).toString());
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
 
-        mInterstitialAd = createNewIntAd();
 
-
-        // getSupportActionBar().setTitle(title);
-        loadIntAdd();
-        showIntAdd();
         return v;
     }
 
@@ -63,21 +83,7 @@ public class FragmentStandings extends Fragment {
         InterstitialAd intAd = new InterstitialAd(getContext());
         // set the adUnitId (defined in values/strings.xml)
         intAd.setAdUnitId(getString(R.string.interstitial));
-        intAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
 
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-
-            }
-
-            @Override
-            public void onAdClosed() {
-            }
-        });
         return intAd;
     }
 

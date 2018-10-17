@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.automata.winbet"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 13
-        versionName "10.2"
+        versionCode 15
+        versionName "11.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,5 +36,8 @@ dependencies {
     compile 'me.leolin:ShortcutBadger:1.1.16@aar'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.facebook.android:audience-network-sdk:4.28.2'
+    implementation 'com.google.ads.mediation:facebook:4.28.2.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

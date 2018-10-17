@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -40,6 +42,7 @@ public class Fragment_Tips extends Fragment {
     static SQLiteDatabase db;
     int seenPosts;
     LinearLayoutManager lm;
+    private InterstitialAd mInterstitialAd;
 
     public Fragment_Tips() {
 
@@ -58,6 +61,9 @@ public class Fragment_Tips extends Fragment {
             }
         });
         showBannerAd();
+
+        mInterstitialAd = createNewIntAd();
+        loadIntAdd();
 
         db = getActivity().openOrCreateDatabase("reads", MODE_PRIVATE, null);
         db.execSQL("create table if not exists table_read(ids varchar)");
@@ -79,10 +85,8 @@ public class Fragment_Tips extends Fragment {
         c.close();
 
 
-
-
         loading = (TextView) v.findViewById(R.id.loading);
-       // dbref.keepSynced(true);
+        // dbref.keepSynced(true);
 
 
         refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
@@ -93,7 +97,6 @@ public class Fragment_Tips extends Fragment {
                 onStart();
             }
         });
-
 
 
         return v;
@@ -141,9 +144,42 @@ public class Fragment_Tips extends Fragment {
                     public void onClick(View v) {
                         db.execSQL("insert into table_read values('" + postKey + "')");
 
-                        Intent detailedIntent = new Intent(getActivity(), PostDetailed.class);
-                        detailedIntent.putExtra("postKey", postKey);
-                        startActivity(detailedIntent);
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdLoaded() {
+
+                                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                                    mInterstitialAd.show();
+                                }else {
+                                    Intent detailedIntent = new Intent(getActivity(), PostDetailed.class);
+                                    detailedIntent.putExtra("postKey", postKey);
+                                    startActivity(detailedIntent);
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onAdFailedToLoad(int errorCode) {
+                                Intent detailedIntent = new Intent(getActivity(), PostDetailed.class);
+                                detailedIntent.putExtra("postKey", postKey);
+                                startActivity(detailedIntent);
+
+                            }
+
+                            @Override
+                            public void onAdClosed() {
+                                // Proceed to the next level.
+                                Intent detailedIntent = new Intent(getActivity(), PostDetailed.class);
+                                detailedIntent.putExtra("postKey", postKey);
+                                startActivity(detailedIntent);
+
+                            }
+
+
+                        });
+
 
                     }
                 });
@@ -155,6 +191,22 @@ public class Fragment_Tips extends Fragment {
         recyclerAdapter.notifyDataSetChanged();
 
     }
+
+    private InterstitialAd createNewIntAd() {
+        InterstitialAd intAd = new InterstitialAd(getContext());
+        // set the adUnitId (defined in values/strings.xml)
+        intAd.setAdUnitId(getString(R.string.interstitial));
+
+        return intAd;
+    }
+
+    private void loadIntAdd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         View v;
