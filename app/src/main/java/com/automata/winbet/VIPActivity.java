@@ -35,7 +35,7 @@ import com.facebook.ads.NativeBannerAd;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Detailed extends AppCompatActivity {
+public class VIPActivity extends AppCompatActivity {
 
     String title;
     WebView webView;
@@ -43,24 +43,20 @@ public class Detailed extends AppCompatActivity {
     ProgressBar progressBar;
 
     NativeBannerAd nativeBannerAd;
-     RelativeLayout nativeBannerAdContainer;
-     LinearLayout adView;
+    private RelativeLayout nativeBannerAdContainer;
+    private LinearLayout adView;
     private static final String TAG ="FACEBOOK_ADS" ;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_standing_detailed);
-
-        title = getIntent().getExtras().getString("title");
-
+        setContentView(R.layout.activity_vip);
         progressBar = findViewById(R.id.progressBar2);
         progressBar.setMax(100);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(title);
             try {
                 getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_back));
             }catch (Exception ignored){
@@ -111,11 +107,11 @@ public class Detailed extends AppCompatActivity {
         // load the ad
         nativeBannerAd.loadAd();
 
-
+        title = "https://hansenphelix.blogspot.com/2018/10/win-bet-vip-joining-instructions.html";
         webView = findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClientDemo());
         webView.getSettings().setJavaScriptEnabled(true);
-       // webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebChromeClient(new myWebChrome());
 
         ConnectivityManager cm =
@@ -137,14 +133,14 @@ public class Detailed extends AppCompatActivity {
         // Add the Ad view into the ad container.
         nativeBannerAdContainer = findViewById(R.id.native_banner_ad_container);
         nativeBannerAdContainer.setVisibility(View.VISIBLE);
-        LayoutInflater inflater = LayoutInflater.from(Detailed.this);
+        LayoutInflater inflater = LayoutInflater.from(VIPActivity.this);
         // Inflate the Ad view.  The layout referenced is the one you created in the last step.
         adView = (LinearLayout) inflater.inflate(R.layout.native_banner_ad_unit, nativeBannerAdContainer, false);
         nativeBannerAdContainer.addView(adView);
 
         // Add the AdChoices icon
         RelativeLayout adChoicesContainer = adView.findViewById(R.id.ad_choices_container);
-        AdChoicesView adChoicesView = new AdChoicesView(Detailed.this, nativeBannerAd, true);
+        AdChoicesView adChoicesView = new AdChoicesView(VIPActivity.this, nativeBannerAd, true);
         adChoicesContainer.addView(adChoicesView, 0);
 
         // Create native UI using the ad metadata.
@@ -171,54 +167,9 @@ public class Detailed extends AppCompatActivity {
 
 
     private void LoadPage(String title) {
-        if (title.equalsIgnoreCase("Barclays Premier League")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/premier-league/table");
-        } else if (title.equalsIgnoreCase("Spanish La liga")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/spanish-la-liga/table");
-        } else if (title.equalsIgnoreCase("German Bundesliga")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/german-bundesliga/table");
-        } else if (title.equalsIgnoreCase("French Ligue 1")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/french-ligue-one/table");
-        } else if (title.equalsIgnoreCase("Italian Serie A")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/italian-serie-a/table");
-        } else if (title.equalsIgnoreCase("MLS")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/us-major-league/table");
 
-        } else if (title.equalsIgnoreCase("UEFA Champions League")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/champions-league/table");
+            webView.loadUrl(title);
 
-        } else if (title.equalsIgnoreCase("UEFA Europa League")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/europa-league/table");
-
-        } else if (title.equalsIgnoreCase("England Championship")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/championship/table");
-
-        } else if (title.equalsIgnoreCase("England League 1")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/league-one/table");
-
-        } else if (title.equalsIgnoreCase("England League 2")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/league-two/table");
-
-        } else if (title.equalsIgnoreCase("Belgium Jupiler League")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/belgian-pro-league/table");
-
-        } else if (title.equalsIgnoreCase("Brazil Serie A")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/brazilian-league/table");
-
-        } else if (title.equalsIgnoreCase("Holland Eredivisie")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/dutch-eredivisie/table");
-
-        } else if (title.equalsIgnoreCase("Portugal Primeira Liga")) {
-            webView.loadUrl("https://www.bbc.com/sport/football/portuguese-primeira-liga/table");
-
-        }else if (title.equals("Turkish Super Lig")){
-            webView.loadUrl("https://www.bbc.com/sport/football/turkish-super-lig/table");
-
-        }
-        else if (title.equals("Greek Superleague")){
-            webView.loadUrl("https://www.bbc.com/sport/football/greek-superleague/table");
-
-        }
     }
 
 

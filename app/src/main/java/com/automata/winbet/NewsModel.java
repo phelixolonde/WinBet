@@ -5,6 +5,7 @@ package com.automata.winbet;
  */
 
 public class NewsModel {
+    public String image;
     String title;
     String description;
     String time;

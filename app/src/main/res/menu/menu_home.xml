@@ -7,15 +7,18 @@
         android:icon="@mipmap/ic_share"
         android:title="@string/share"
         app:showAsAction="always" />
-    <item android:id="@+id/joinVip"
-        android:title="@string/join_vip"/>
+    <item
+        android:id="@+id/joinVip"
+        android:title="@string/join_vip" />
     <item
         android:id="@+id/rate"
         android:title="@string/rate_us_please" />
     <item
         android:id="@+id/feedback"
         android:title="@string/feedback" />
-
+    <item
+        android:id="@+id/privacy"
+        android:title="@string/privacy_policy" />
     <item
         android:id="@+id/about"
         android:title="@string/about" />

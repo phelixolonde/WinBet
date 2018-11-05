@@ -30,12 +30,6 @@
        android:layout_height="wrap_content">
 
    </ListView>
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/banner_AdView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        android:layout_gravity="center_horizontal"
-        ads:adUnitId="@string/ad_id_banner" />
+
 
 </LinearLayout>

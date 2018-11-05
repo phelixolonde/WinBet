@@ -14,12 +14,7 @@
         android:layout_margin="20dp"
         android:text="Loading..." />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/banner_AdView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_id_banner" />
+
 
     <WebView
         android:id="@+id/newsView"

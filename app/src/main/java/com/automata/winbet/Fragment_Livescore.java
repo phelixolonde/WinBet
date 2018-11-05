@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,41 +21,32 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 
 public class Fragment_Livescore extends Fragment {
 
     String title;
     WebView webView;
-    //private InterstitialAd mInterstitialAd;
     ProgressBar progressBar;
     View v;
     SwipeRefreshLayout refresher;
-    private AdView mBannerAd;
     public Fragment_Livescore(){
 
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_live_score, container, false);
-        progressBar = (ProgressBar) v.findViewById(R.id.progressBar2);
+        progressBar = v.findViewById(R.id.progressBar2);
         progressBar.setMax(100);
 
 
-        mBannerAd = (AdView) v.findViewById(R.id.banner_AdView);
 
-        showBannerAd();
-
-        refresher = (SwipeRefreshLayout) v.findViewById(R.id.refresher);
+        refresher = v.findViewById(R.id.refresher);
         refresher.setColorSchemeResources(R.color.blue, R.color.lightBlue, R.color.deepPurple, R.color.purple, R.color.pink, R.color.orange, R.color.red);
 
 
-        webView = (WebView) v.findViewById(R.id.webView);
+        webView = v.findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClientDemo());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -89,37 +81,6 @@ public class Fragment_Livescore extends Fragment {
 
         return v;
     }
-
-    private void showBannerAd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mBannerAd.loadAd(adRequest);
-
-
-    }
-
-
-    public boolean canGoBack() {
-        return webView.canGoBack();
-    }
-
-    public void goBack() {
-        webView.goBack();
-    }
-
-   /* private void loadIntAdd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mInterstitialAd.loadAd(adRequest);
-    }*/
-
-    /*private void showIntAdd() {
-
-// Show the ad if it's ready. Otherwise toast and reload the ad.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }*/
-
 
     private class myWebChrome extends WebChromeClient {
         @Override

@@ -4,17 +4,16 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     String dev_id;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +49,26 @@ public class MainActivity extends AppCompatActivity {
 
         dev_id = FirebaseInstanceId.getInstance().getToken();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+        }catch (Exception ignored){
+
+        }
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+
+        try {
+            tabLayout.setupWithViewPager(mViewPager);
+        }catch (Exception ignored){
+
+        }
+
 
 
     }
@@ -92,10 +102,14 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.feedback) {
             startActivity(new Intent(MainActivity.this, Feedback.class));
         }else if(id==R.id.joinVip){
-            Intent in=new Intent(MainActivity.this,Feedback_Detailed.class);
-            in.putExtra("quiz","How to join VIP?");
+            Intent in=new Intent(MainActivity.this,VIPActivity.class);
             startActivity(in);
-        } else if (id == R.id.rate) {
+        }
+        else if(id==R.id.privacy){
+            Intent in=new Intent(MainActivity.this,PrivacyPolicy.class);
+            startActivity(in);
+        }
+        else if (id == R.id.rate) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("RATE US PLEASE");
             alert.setMessage("Do you like the app? " +
@@ -179,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return "LIVESCORE";
                 case 3:
-                    return "SOCCER NEWS";
+                    return "NEWS";
             }
-            return "SMART TIPS";
+            return "TIPS";
         }
     }
 

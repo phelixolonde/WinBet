@@ -2,7 +2,6 @@ package com.automata.winbet;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.facebook.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -23,7 +19,8 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private LayoutInflater inflater;
     List<NewsModel> data;
-    private InterstitialAd mInterstitialAd;
+    private static final String TAG ="FACEBOOK_ADS" ;
+    private InterstitialAd interstitialAd;
 
     public AdapterNews(Context context, List<NewsModel> data) {
         this.context = context;
@@ -36,9 +33,9 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view = inflater.inflate(R.layout.news_row, parent, false);
         MyHolder holder = new MyHolder(view);
 
-        mInterstitialAd = createNewIntAd();
+        interstitialAd = new InterstitialAd(context, "316921022146803_395199880985583");
+        interstitialAd.loadAd();
 
-        loadIntAdd();
 
         return holder;
     }
@@ -51,61 +48,28 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final NewsModel current = data.get(position);
 
         myHolder.newsTitle.setText(current.title);
-        myHolder.newsTime.setText(current.time);
+       // myHolder.newsTime.setText(current.time);
         myHolder.newsDesc.setText(current.description);
+        Picasso.with(context).load(current.image).into(myHolder.imageView);
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mInterstitialAd.setAdListener(new AdListener() {
-                    @Override
-                    public void onAdLoaded() {
-                        showIntAdd();
-                    }
+                if (interstitialAd.isAdLoaded()){
+                    interstitialAd.show();
+                }
 
-                    @Override
-                    public void onAdFailedToLoad(int errorCode) {
-                        Intent intent = new Intent(context, News_Detailed.class);
-                        intent.putExtra("url", current.url);
-                        context.startActivity(intent);
-                    }
+                Intent intent = new Intent(context, News_Detailed.class);
+                intent.putExtra("url", current.url);
+                context.startActivity(intent);
 
-                    @Override
-                    public void onAdClosed() {
-                        // Proceed to the next level.
-                        Intent intent = new Intent(context, News_Detailed.class);
-                        intent.putExtra("url", current.url);
-                        context.startActivity(intent);
-                    }
-                });
+
 
             }
         });
 
 
-    }
-
-    private InterstitialAd createNewIntAd() {
-        InterstitialAd intAd = new InterstitialAd(context);
-        // set the adUnitId (defined in values/strings.xml)
-        intAd.setAdUnitId(context.getString(R.string.interstitial));
-
-        return intAd;
-    }
-
-    private void loadIntAdd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-    private void showIntAdd() {
-
-// Show the ad if it's ready. Otherwise toast and reload the ad.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
     }
 
     // return total item from List
@@ -119,14 +83,16 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class MyHolder extends RecyclerView.ViewHolder {
 
         TextView newsTitle;
-        TextView newsTime, newsDesc;
+        TextView newsDesc;
+        ImageView imageView;
 
 
         public MyHolder(View itemView) {
             super(itemView);
-            newsTitle = (TextView) itemView.findViewById(R.id.newsTitle);
-            newsTime = (TextView) itemView.findViewById(R.id.newsTime);
-            newsDesc = (TextView) itemView.findViewById(R.id.newsDesc);
+            newsTitle = itemView.findViewById(R.id.newsTitle);
+          //  newsTime = itemView.findViewById(R.id.newsTime);
+            newsDesc = itemView.findViewById(R.id.newsDesc);
+            imageView=itemView.findViewById(R.id.imgBody);
         }
 
     }

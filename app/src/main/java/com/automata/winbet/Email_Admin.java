@@ -3,16 +3,13 @@ package com.automata.winbet;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 
 /**
@@ -22,7 +19,6 @@ public class Email_Admin extends AppCompatActivity {
     Button btnSubmit;
     EditText txtFeed, txtEmail;
     String email;
-    private AdView mBannerAd;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +26,16 @@ public class Email_Admin extends AppCompatActivity {
         if(getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            try {
+                getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_back));
+            }catch (Exception ignored){
+
+            }
         }
 
-        btnSubmit = (Button) findViewById(R.id.btnfeed);
-        txtFeed = (EditText) findViewById(R.id.txtFeed);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
+        btnSubmit = findViewById(R.id.btnfeed);
+        txtFeed = findViewById(R.id.txtFeed);
+        txtEmail = findViewById(R.id.txtEmail);
         email = txtEmail.getText().toString();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -53,15 +54,8 @@ public class Email_Admin extends AppCompatActivity {
                 }
             }
         });
-        mBannerAd = (AdView) findViewById(R.id.banner_AdView);
-        showBannerAd();
     }
-    private void showBannerAd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mBannerAd.loadAd(adRequest);
 
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();

@@ -1,6 +1,7 @@
 package com.automata.winbet;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,39 +19,22 @@ public class Feedback_Detailed extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            try {
+                getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_back));
+            }catch (Exception ignored){
+
+            }
         }
 
         setContentView(R.layout.activity_feedback__detailed);
-        txtQuiz = (TextView) findViewById(R.id.txtQuiz);
-        txtAnswer = (TextView) findViewById(R.id.txtAnswer);
+        txtQuiz = findViewById(R.id.txtQuiz);
+        txtAnswer = findViewById(R.id.txtAnswer);
         quiz = getIntent().getExtras().getString("quiz");
         txtQuiz.setText(quiz);
         txtAnswer.setTextIsSelectable(true);
 
         switch (quiz) {
-            case "How to join VIP?":
-                txtAnswer.setText(
-                        "VIP CHANNEL WINS AT LEAST 5 DAYS IN A WEEK" + "\n" +
-                                "IT HAS SINGLE ODDS 2+, MULTIBETS OF ODDS 20+, JACKPOTS AND MEGA-JACKPOTS" + "\n" +
-                                "*AFTER PAYMENT, YOU GET THE LINK TO VIP CHANNEL INSTANTLY" + "\n" + "\n" +
-                                "AMOUNT" + "\n" +
-                                "-----------------------------------" + "\n" +
-                                "KENYANS: KSH.1000" + "\n" +
-                                "NIGERIA: NGN 4000" + "\n" +
-                                "TANZANIA: TZS 24000" + "\n" +
-                                "UGANDA: UGX 38000" + "\n" +
-                                "GHANA: 50 CEDIS" + "\n" +
-                                "OTHER COUNTRIES: 10 US DOLLARS" + "\n" + "\n" +
-                                "DURATION: 4 MONTHS" + "\n" + "\n" +
-                                "PAYMENT METHODS" + "\n" +
-                                "------------------------------------" + "\n" +
 
-                                "MPESA: +254719275724" + "\n" +
-                                "PAYPAL: hansenphelix@gmail.com" + "\n" +
-                                "ECOBANK RAPID TRANSFER (Except Nigeria): Ask admin for details" + "\n" +
-                                "BITCOINS: 18yNpK6V8A4A6ZtWHkA95zFV3Bc343b18j");
-
-                break;
             case "App not working":
                 txtAnswer.setText("Kindly update your app to the latest version.");
                 break;
