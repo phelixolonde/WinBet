@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
 
     <WebView
@@ -27,13 +27,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="2dp" />
 
-    <RelativeLayout
-        android:id="@+id/native_banner_ad_container"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner_AdView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
-
+        ads:adUnitId="@string/ad_id_banner" />
 
 </RelativeLayout>

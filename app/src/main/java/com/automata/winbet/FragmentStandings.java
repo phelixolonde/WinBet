@@ -15,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.facebook.ads.InterstitialAd;
-
 
 public class FragmentStandings extends Fragment {
     WebView webView;
@@ -30,8 +28,7 @@ public class FragmentStandings extends Fragment {
             "Turkish Super Lig","MLS"};
 
     ListView listView;
-    private static final String TAG ="FACEBOOK_ADS" ;
-     InterstitialAd interstitialAd;
+
 
     @Nullable
     @Override
@@ -40,8 +37,7 @@ public class FragmentStandings extends Fragment {
 
 
 
-        interstitialAd = new InterstitialAd(getContext(), "316921022146803_395199880985583");
-        interstitialAd.loadAd();
+
         // getSupportActionBar().setTitle(title);
 
 
@@ -52,9 +48,7 @@ public class FragmentStandings extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                if (interstitialAd.isAdLoaded()){
-                    interstitialAd.show();
-                }
+
 
                 Intent intent = new Intent(getActivity(), Detailed.class);
                 intent.putExtra("title", listView.getItemAtPosition(position).toString());

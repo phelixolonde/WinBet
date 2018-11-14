@@ -1,11 +1,21 @@
 package com.automata.winbet;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Feedback_Detailed extends AppCompatActivity {
@@ -36,7 +46,30 @@ public class Feedback_Detailed extends AppCompatActivity {
         switch (quiz) {
 
             case "App not working":
-                txtAnswer.setText("Kindly update your app to the latest version.");
+
+                SpannableString ss = new SpannableString("Kindly update your app to the latest version.Click here to update");
+                ClickableSpan clickableSpan = new ClickableSpan() {
+                    @Override
+                    public void onClick(View textView) {
+                        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        try {
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(Feedback_Detailed.this, "Unable to find play store", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                    }
+                };
+                ss.setSpan(clickableSpan, 45, 55, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                txtAnswer.setText(ss);
+                txtAnswer.setMovementMethod(LinkMovementMethod.getInstance());
+                txtAnswer.setHighlightColor(Color.TRANSPARENT);
                 break;
             case "Tips not loading":
                 txtAnswer.setText("Swipe down to refresh. Whenever you see a notification, always check the app." +

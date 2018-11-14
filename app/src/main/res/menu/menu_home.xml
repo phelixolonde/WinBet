@@ -14,6 +14,9 @@
         android:id="@+id/rate"
         android:title="@string/rate_us_please" />
     <item
+        android:id="@+id/updaete"
+        android:title="@string/update_app"/>
+    <item
         android:id="@+id/feedback"
         android:title="@string/feedback" />
     <item

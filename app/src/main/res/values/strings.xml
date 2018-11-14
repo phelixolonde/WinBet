@@ -12,16 +12,17 @@
     <string name="about">About App</string>
     <string name="your_email_address">Your email address</string>
     <string name="submit_feedback">Submit Feedback</string>
-    <string name="banner">ca-app-pub-7130350208213886/6775522459</string>
     <string name="interstitial">ca-app-pub-7130350208213886/3021698057</string>
-    <string name="native_ad">ca-app-pub-7130350208213886/8891384059</string>
     <string name="ad_id_banner">ca-app-pub-7130350208213886/1544964854</string>
+
+
 
     <string name="photo">Photo</string>
     <string name="news_title">Alexander Lacazette signs for Arsenal</string>
     <string name="how_can_we_help_you">How can we help you?</string>
     <string name="join_vip">Join VIP</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="update_app">Update App</string>
 
 
 </resources>

@@ -10,30 +10,17 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdChoicesView;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdIconView;
-import com.facebook.ads.NativeAdListener;
-import com.facebook.ads.NativeBannerAd;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class Detailed extends AppCompatActivity {
 
@@ -41,10 +28,8 @@ public class Detailed extends AppCompatActivity {
     WebView webView;
 
     ProgressBar progressBar;
+    private AdView mBannerAd;
 
-    NativeBannerAd nativeBannerAd;
-     RelativeLayout nativeBannerAdContainer;
-     LinearLayout adView;
     private static final String TAG ="FACEBOOK_ADS" ;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -67,49 +52,10 @@ public class Detailed extends AppCompatActivity {
 
             }
         }
+        mBannerAd =  findViewById(R.id.banner_AdView);
+        showBannerAd();
 
-        nativeBannerAd = new NativeBannerAd(this, "316921022146803_395182830987288");
-        nativeBannerAd.setAdListener(new NativeAdListener() {
-            @Override
-            public void onMediaDownloaded(Ad ad) {
-                // Native ad finished downloading all assets
-                Log.e(TAG, "Native ad finished downloading all assets.");
-            }
 
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Native ad failed to load
-                Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
-
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-
-                // Native ad is loaded and ready to be displayed
-                Log.d(TAG, "Native ad is loaded and ready to be displayed!");
-                if (nativeBannerAd == null || nativeBannerAd != ad) {
-                    return;
-                }
-
-                // Inflate Native Banner Ad into Container
-                inflateAd(nativeBannerAd);
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Native ad clicked
-                Log.d(TAG, "Native ad clicked!");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Native ad impression
-                Log.d(TAG, "Native ad impression logged!");
-            }
-        });
-        // load the ad
-        nativeBannerAd.loadAd();
 
 
         webView = findViewById(R.id.webView);
@@ -130,45 +76,12 @@ public class Detailed extends AppCompatActivity {
 
 
     }
-    private void inflateAd(NativeBannerAd nativeBannerAd) {
-        // Unregister last ad
-        nativeBannerAd.unregisterView();
+    private void showBannerAd() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mBannerAd.loadAd(adRequest);
 
-        // Add the Ad view into the ad container.
-        nativeBannerAdContainer = findViewById(R.id.native_banner_ad_container);
-        nativeBannerAdContainer.setVisibility(View.VISIBLE);
-        LayoutInflater inflater = LayoutInflater.from(Detailed.this);
-        // Inflate the Ad view.  The layout referenced is the one you created in the last step.
-        adView = (LinearLayout) inflater.inflate(R.layout.native_banner_ad_unit, nativeBannerAdContainer, false);
-        nativeBannerAdContainer.addView(adView);
-
-        // Add the AdChoices icon
-        RelativeLayout adChoicesContainer = adView.findViewById(R.id.ad_choices_container);
-        AdChoicesView adChoicesView = new AdChoicesView(Detailed.this, nativeBannerAd, true);
-        adChoicesContainer.addView(adChoicesView, 0);
-
-        // Create native UI using the ad metadata.
-        TextView nativeAdTitle = adView.findViewById(R.id.native_ad_title);
-        TextView nativeAdSocialContext = adView.findViewById(R.id.native_ad_social_context);
-        TextView sponsoredLabel = adView.findViewById(R.id.native_ad_sponsored_label);
-        AdIconView nativeAdIconView = adView.findViewById(R.id.native_icon_view);
-        Button nativeAdCallToAction = adView.findViewById(R.id.native_ad_call_to_action);
-
-        // Set the Text.
-        nativeAdCallToAction.setText(nativeBannerAd.getAdCallToAction());
-        nativeAdCallToAction.setVisibility(
-                nativeBannerAd.hasCallToAction() ? View.VISIBLE : View.INVISIBLE);
-        nativeAdTitle.setText(nativeBannerAd.getAdvertiserName());
-        nativeAdSocialContext.setText(nativeBannerAd.getAdSocialContext());
-        sponsoredLabel.setText(nativeBannerAd.getSponsoredTranslation());
-
-        // Register the Title and CTA button to listen for clicks.
-        List<View> clickableViews = new ArrayList<>();
-        clickableViews.add(nativeAdTitle);
-        clickableViews.add(nativeAdCallToAction);
-        nativeBannerAd.registerViewForInteraction(adView, nativeAdIconView, clickableViews);
     }
-
 
     private void LoadPage(String title) {
         if (title.equalsIgnoreCase("Barclays Premier League")) {

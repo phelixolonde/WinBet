@@ -16,8 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -108,19 +106,17 @@ public class MainActivity extends AppCompatActivity {
         else if(id==R.id.privacy){
             Intent in=new Intent(MainActivity.this,PrivacyPolicy.class);
             startActivity(in);
+        }else if (id==R.id.updaete){
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(MainActivity.this, "Unable to find play store", Toast.LENGTH_SHORT).show();
+            }
         }
         else if (id == R.id.rate) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("RATE US PLEASE");
-            alert.setMessage("Do you like the app? " +
-                    "How about if you give us five stars " +
-                    "It won't cost a thing");
-            RatingBar ratingBar = new RatingBar(this);
-            ratingBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            ratingBar.setRating(5);
-            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
                     Uri uri = Uri.parse("market://details?id=" + getPackageName());
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     try {
@@ -128,10 +124,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (ActivityNotFoundException e) {
                         Toast.makeText(MainActivity.this, "Unable to find play store", Toast.LENGTH_SHORT).show();
                     }
-                }
-            });
-            alert.setView(ratingBar);
-            alert.show();
+
+
         } else if (id == android.R.id.home) {
             finish();
         } else if (id == R.id.menu_share) {

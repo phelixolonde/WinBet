@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.ads.InterstitialAd;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,7 +20,6 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     List<NewsModel> data;
     private static final String TAG ="FACEBOOK_ADS" ;
-    private InterstitialAd interstitialAd;
 
     public AdapterNews(Context context, List<NewsModel> data) {
         this.context = context;
@@ -33,8 +32,7 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view = inflater.inflate(R.layout.news_row, parent, false);
         MyHolder holder = new MyHolder(view);
 
-        interstitialAd = new InterstitialAd(context, "316921022146803_395199880985583");
-        interstitialAd.loadAd();
+
 
 
         return holder;
@@ -50,15 +48,12 @@ public class AdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         myHolder.newsTitle.setText(current.title);
        // myHolder.newsTime.setText(current.time);
         myHolder.newsDesc.setText(current.description);
-        Picasso.with(context).load(current.image).into(myHolder.imageView);
+        Picasso.get().load(current.image).into(myHolder.imageView);
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (interstitialAd.isAdLoaded()){
-                    interstitialAd.show();
-                }
 
                 Intent intent = new Intent(context, News_Detailed.class);
                 intent.putExtra("url", current.url);
