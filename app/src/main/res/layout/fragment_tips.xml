@@ -17,9 +17,17 @@
 
         />
 
+    <RelativeLayout
+        android:id="@+id/native_banner_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone" />
 
     <LinearLayout
-
+        android:layout_below="@id/native_banner_ad_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -42,13 +50,5 @@
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/banner_AdView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_id_banner" />
 
 </RelativeLayout>

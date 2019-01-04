@@ -11,20 +11,30 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdChoicesView;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdIconView;
+import com.facebook.ads.NativeAdListener;
+import com.facebook.ads.NativeBannerAd;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,7 +49,11 @@ public class Fragment_Tips extends Fragment {
     static SQLiteDatabase db;
     LinearLayoutManager lm;
     InterstitialAd mInterstitialAd;
-    private AdView mBannerAd;
+
+    NativeBannerAd nativeBannerAd;
+    RelativeLayout nativeBannerAdContainer;
+    LinearLayout adView;
+    private static final String TAG = "FACEBOOK_ADS";
 
     public Fragment_Tips() {
 
@@ -73,37 +87,98 @@ public class Fragment_Tips extends Fragment {
         });
 
 
-        mBannerAd = v.findViewById(R.id.banner_AdView);
-
-        showBannerAd();
-
-        mBannerAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                mBannerAd.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-
-            }
-        });
-
         mInterstitialAd = createNewIntAd();
         loadIntAdd();
+
+        nativeBannerAd = new NativeBannerAd(getContext(), "316921022146803_395182830987288");
+        // load the ad
+        nativeBannerAd.loadAd();
+
+        nativeBannerAd.setAdListener(new NativeAdListener() {
+            @Override
+            public void onMediaDownloaded(Ad ad) {
+                // Native ad finished downloading all assets
+                Log.e(TAG, "Native ad finished downloading all assets.");
+            }
+
+            @Override
+            public void onError(Ad ad, AdError adError) {
+                // Native ad failed to load
+                Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+
+                // Native ad is loaded and ready to be displayed
+                Log.d(TAG, "Native ad is loaded and ready to be displayed!");
+                if (nativeBannerAd == null || nativeBannerAd != ad) {
+                    return;
+                }
+
+                try {
+                    // Inflate Native Banner Ad into Container
+                    inflateAd(nativeBannerAd);
+                } catch (Exception ignored) {
+
+                }
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                // Native ad clicked
+                Log.d(TAG, "Native ad clicked!");
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                // Native ad impression
+                Log.d(TAG, "Native ad impression logged!");
+            }
+        });
 
 
         return v;
     }
 
-    private void showBannerAd() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mBannerAd.loadAd(adRequest);
+    private void inflateAd(NativeBannerAd nativeBannerAd) {
+        // Unregister last ad
+        nativeBannerAd.unregisterView();
 
+        // Add the Ad view into the ad container.
+        nativeBannerAdContainer = v.findViewById(R.id.native_banner_ad_container);
+        nativeBannerAdContainer.setVisibility(View.VISIBLE);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        // Inflate the Ad view.  The layout referenced is the one you created in the last step.
+        adView = (LinearLayout) inflater.inflate(R.layout.native_banner_ad_unit, nativeBannerAdContainer, false);
+        nativeBannerAdContainer.addView(adView);
 
+        // Add the AdChoices icon
+        RelativeLayout adChoicesContainer = adView.findViewById(R.id.ad_choices_container);
+        AdChoicesView adChoicesView = new AdChoicesView(getContext(), nativeBannerAd, true);
+        adChoicesContainer.addView(adChoicesView, 0);
+
+        // Create native UI using the ad metadata.
+        TextView nativeAdTitle = adView.findViewById(R.id.native_ad_title);
+        TextView nativeAdSocialContext = adView.findViewById(R.id.native_ad_social_context);
+        TextView sponsoredLabel = adView.findViewById(R.id.native_ad_sponsored_label);
+        AdIconView nativeAdIconView = adView.findViewById(R.id.native_icon_view);
+        Button nativeAdCallToAction = adView.findViewById(R.id.native_ad_call_to_action);
+
+        // Set the Text.
+        nativeAdCallToAction.setText(nativeBannerAd.getAdCallToAction());
+        nativeAdCallToAction.setVisibility(
+                nativeBannerAd.hasCallToAction() ? View.VISIBLE : View.INVISIBLE);
+        nativeAdTitle.setText(nativeBannerAd.getAdvertiserName());
+        nativeAdSocialContext.setText(nativeBannerAd.getAdSocialContext());
+        sponsoredLabel.setText(nativeBannerAd.getSponsoredTranslation());
+
+        // Register the Title and CTA button to listen for clicks.
+        List<View> clickableViews = new ArrayList<>();
+        clickableViews.add(nativeAdTitle);
+        clickableViews.add(nativeAdCallToAction);
+        nativeBannerAd.registerViewForInteraction(adView, nativeAdIconView, clickableViews);
     }
 
 
@@ -203,7 +278,6 @@ public class Fragment_Tips extends Fragment {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         View v;
-        ArrayList read1;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -211,25 +285,29 @@ public class Fragment_Tips extends Fragment {
 
         }
 
-        public void setTitle(String title, String post_key) {
+        void setTitle(String title, String post_key) {
             TextView postTitle = v.findViewById(R.id.postTitle);
             postTitle.setText(title.toUpperCase());
-            String s = "select * from table_read";
-            Cursor c = db.rawQuery(s, null);
-            if (c != null && c.moveToFirst()) {
-                do {
+            try {
+                String s = "select * from table_read";
+                Cursor c = db.rawQuery(s, null);
+                if (c != null && c.moveToFirst()) {
+                    do {
 
 
-                    String ids = c.getString(c.getColumnIndex("ids"));
+                        String ids = c.getString(c.getColumnIndex("ids"));
 
-                    if (ids.equals(post_key)) {
-                        postTitle.setTextColor(ContextCompat.getColor(v.getContext(), R.color.grey));
+                        if (ids.equals(post_key)) {
+                            postTitle.setTextColor(ContextCompat.getColor(v.getContext(), R.color.grey));
 
-                    }
+                        }
 
 
-                } while (c.moveToNext());
-                c.close();
+                    } while (c.moveToNext());
+                    c.close();
+                }
+            }catch (Exception ignored){
+
             }
         }
 

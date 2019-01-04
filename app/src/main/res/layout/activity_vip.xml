@@ -28,12 +28,11 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="2dp" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/banner_AdView"
+    <RelativeLayout
+        android:id="@+id/native_banner_ad_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_id_banner" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 </RelativeLayout>
